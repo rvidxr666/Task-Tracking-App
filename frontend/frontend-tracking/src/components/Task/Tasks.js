@@ -29,7 +29,7 @@ const Tasks = () => {
 
         var taskName = e.target[0].value
         var deadlineDate = e.target[1].value
-        var validation = validateDate(deadlineDate)
+        var validation = validationFunc(deadlineDate, taskName)
         console.log(taskName, deadlineDate, new Date(Date.now()).toISOString().substring(0, 10))
 
         if (validation && reqType === "POST") {
@@ -74,13 +74,24 @@ const Tasks = () => {
     )
 }
 
-const validateDate = (date) => {
+const validationFunc = (date, taskName) => {
     var dateNow = Date.now();
     var dedlineDate = new Date(date)
     if (dedlineDate < dateNow) {
         alert("Deadline should not be earlier than today's date!")
         return false
     } 
+
+    if (!taskName) {
+        alert("Task name cannot be empty!")
+        return false
+    }
+
+    if (isNaN(dedlineDate)) {
+        alert("Invalid Deadline!")
+        return false
+    }
+
     return true
 }
  
