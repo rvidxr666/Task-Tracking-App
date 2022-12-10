@@ -1,0 +1,35 @@
+services:
+  frontend-app:
+    image: frontend-app:latest
+    build: ./frontend/frontend-tracking
+    container_name: frontend
+    ports:
+    - "80:80"
+    depends_on:
+    - backend-app
+    environment:
+      - REACT_APP_backend_host_task=localhost
+
+  backend-app:
+    image: backend-app:latest
+    container_name: backendapi
+    ports:
+    - "8080:8080"
+    depends_on:
+    - postgres_instance
+    environment:
+      - db_host_task=postgres_instance
+      - port_task=5432
+
+  postgres_instance:
+    image: postgres_instance:latest
+    build: ./db_files
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    container_name: postgres_instance
+    ports: 
+    - "6432:5432"
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+
+

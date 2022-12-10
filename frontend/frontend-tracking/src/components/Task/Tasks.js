@@ -9,7 +9,7 @@ const Tasks = () => {
     const [curTasks, changeTask] = useState("")
 
     const fetchAPI = async () => {
-        var res = await axios.get("http://localhost:8080/tasks")
+        var res = await axios.get(`http://${process.env.REACT_APP_backend_host_task}:8080/tasks`)
         changeTask(res.data)
     }
 
@@ -22,7 +22,7 @@ const Tasks = () => {
 
         if (reqType === "DELETE") {
             console.log(taskName, deadlineDate)
-            await axios.delete(`http://localhost:8080/tasks/${id}`)
+            await axios.delete(`http://${process.env.REACT_APP_backend_host_task}:8080/tasks/${id}`)
             fetchAPI()
             changeFormStatus(false)
         }
@@ -33,7 +33,7 @@ const Tasks = () => {
         console.log(taskName, deadlineDate, new Date(Date.now()).toISOString().substring(0, 10))
 
         if (validation && reqType === "POST") {
-            await axios.post("http://localhost:8080/tasks", 
+            await axios.post(`http://${process.env.REACT_APP_backend_host_task}:8080/tasks`, 
                 {
                     "task": taskName,
                     "dateCreated": new Date(Date.now()).toISOString().substring(0, 10),
@@ -46,7 +46,7 @@ const Tasks = () => {
 
         if (validation && reqType === "PUT") {
             console.log(taskName, deadlineDate)
-            await axios.put(`http://localhost:8080/tasks/${id}`, 
+            await axios.put(`http://${process.env.REACT_APP_backend_host_task}:8080/tasks/${id}`, 
                 {
                     "task": taskName,
                     "dateDue": deadlineDate
